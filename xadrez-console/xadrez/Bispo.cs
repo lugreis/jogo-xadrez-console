@@ -2,15 +2,15 @@
 
 namespace xadrez_console.xadrez
 {
-    class Torre : Peca
+    class Bispo : Peca
     {
-        public Torre(Cor cor, Tabuleiro tab) : base(cor, tab)
+        public Bispo(Cor cor, Tabuleiro tab) : base(cor, tab)
         {
         }
 
         public override string ToString()
         {
-            return "T";
+            return "B";
         }
 
         private bool PodeMover(Posicao pos)
@@ -25,20 +25,8 @@ namespace xadrez_console.xadrez
 
             Posicao pos = new Posicao(0, 0);
 
-            //acima
-            pos.DefineValores(Posicao.Linha - 1, Posicao.Coluna);
-            while (Tab.PosicaoValida(pos) && PodeMover(pos))
-            {
-                mat[pos.Linha, pos.Coluna] = true;
-                if(Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
-                {
-                    break;
-                }
-                pos.Linha = pos.Linha - 1;
-            }
-
-            //abaixo
-            pos.DefineValores(Posicao.Linha + 1, Posicao.Coluna);
+            //NO
+            pos.DefineValores(Posicao.Linha - 1, Posicao.Coluna - 1);
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -46,11 +34,11 @@ namespace xadrez_console.xadrez
                 {
                     break;
                 }
-                pos.Linha = pos.Linha + 1;
+                pos.DefineValores(pos.Linha - 1, pos.Coluna - 1);
             }
 
-            //direita
-            pos.DefineValores(Posicao.Linha, Posicao.Coluna + 1);
+            //NE
+            pos.DefineValores(Posicao.Linha - 1, Posicao.Coluna + 1);
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -58,11 +46,11 @@ namespace xadrez_console.xadrez
                 {
                     break;
                 }
-                pos.Coluna = pos.Coluna + 1;
+                pos.DefineValores(pos.Linha - 1, pos.Coluna + 1);
             }
 
-            //esquerda
-            pos.DefineValores(Posicao.Linha, Posicao.Coluna - 1);
+            //SE
+            pos.DefineValores(Posicao.Linha + 1, Posicao.Coluna + 1);
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -70,9 +58,20 @@ namespace xadrez_console.xadrez
                 {
                     break;
                 }
-                pos.Coluna = pos.Coluna - 1;
+                pos.DefineValores(pos.Linha + 1, pos.Coluna + 1);
             }
 
+            //SO
+            pos.DefineValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
+                {
+                    break;
+                }
+                pos.DefineValores(pos.Linha + 1, pos.Coluna - 1);
+            }
             return mat;
         }
     }
